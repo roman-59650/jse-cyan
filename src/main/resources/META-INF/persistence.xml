@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence xmlns="http://xmlns.jcp.org/xml/ns/persistence" version="2.1">
+
+    <persistence-unit name="llama" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>fr.ulille.phlam.entities.Format</class>
+        <class>fr.ulille.phlam.entities.Datatable</class>
+        <properties>
+            <property name="hibernate.connection.url" value="jdbc:derby:db;create=true;user=admin"/>
+            <property name="hibernate.connection.driver_class" value="org.apache.derby.jdbc.EmbeddedDriver"/>
+            <property name="hibernate.connection.username" value="admin"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.DerbyTenSevenDialect"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.format_sql" value="true"/>
+            <!--<property name="hibernate.hbm2ddl.auto" value="update"/>-->
+            <property name="hibernate.id.new_generator_mappings" value="false"/>
+            <property name="hibernate.connection.autocommit" value="false"/>
+            <property name="hibernate.default_schema" value="app"/>
+        </properties>
+    </persistence-unit>
+</persistence>

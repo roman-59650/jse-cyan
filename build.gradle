@@ -1,0 +1,22 @@
+plugins {
+    id 'application'
+    id 'org.openjfx.javafxplugin' version '0.0.9'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    compile 'org.hibernate:hibernate-core:5.4.4.Final'
+    compile 'org.apache.derby:derby:10.11.1.1'
+    compile 'org.hibernate.javax.persistence:hibernate-jpa-2.1-api:1.0.0.Final'
+    compile 'org.controlsfx:controlsfx:11.1.0'
+}
+
+javafx {
+    version = "11"
+    modules = [ 'javafx.controls', 'javafx.fxml', 'javafx.graphics', 'javafx.base' ]
+}
+
+mainClassName = 'fr.ulille.phlam.MainApp'
