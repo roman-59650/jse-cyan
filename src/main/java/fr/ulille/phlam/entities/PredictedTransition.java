@@ -20,12 +20,23 @@ public class PredictedTransition {
   private double qn16;
   private double frequency;
   private double intensity;
-  private long tableId;
-  private long compId;
 
   @Id
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @GeneratedValue(strategy = GenerationType.AUTO)
   private long pid;
+
+  @ManyToOne
+  @JoinColumn(name = "table_id")
+  private Datatable datatable;
+  //private long tableId;
+
+  private long compId;
+
+  public PredictedTransition(Datatable datatable){
+      this.datatable = datatable;
+  }
+
+  public PredictedTransition(){}
 
   public short getQn21() {
     return qn21;
@@ -139,12 +150,12 @@ public class PredictedTransition {
     this.intensity = intensity;
   }
 
-  public long getTableId() {
-    return tableId;
+  public Datatable getDatatable() {
+    return datatable;
   }
 
-  public void setTableId(long tableId) {
-    this.tableId = tableId;
+  public void setDatatable(Datatable datatable) {
+    this.datatable = datatable;
   }
 
   public long getCompId() {

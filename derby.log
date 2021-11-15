@@ -1,11 +1,11 @@
 ----------------------------------------------------------------
-Sat Nov 13 18:02:34 UTC 2021:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-017d-1a77-1f34-000007509b40 
-on database directory /Users/romanmbpro/Desktop/_Projects/Prog/Java/Spectrum Explorer/jse-cyan/db with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@5c29bfd 
-Loaded from file:/Users/romanmbpro/Library/Application%20Support/JetBrains/IntelliJIdea2021.2/jdbc-drivers/Apache%20Derby/10.15.2.0/derby-10.15.2.0.jar
+Mon Nov 15 09:21:58 CET 2021:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.11.1.1 - (1616546): instance a816c00e-017d-22b0-4a39-00000ebac750 
+on database directory /Volumes/Data HD/roman/Projects/Java/jse-cyan/db with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@3aa9e816 
+Loaded from file:/Volumes/Data%20HD/roman/.gradle/caches/modules-2/files-2.1/org.apache.derby/derby/10.11.1.1/df4b50061e8e4c348ce243b921f53ee63ba9bbe1/derby-10.11.1.1.jar
 java.vendor=JetBrains s.r.o.
-java.runtime.version=11.0.11+9-b1504.16
-user.dir=/Users/romanmbpro/Desktop/_Projects/Prog/Java/Spectrum Explorer/jse-cyan
+java.runtime.version=11.0.12+7-b1504.40
+user.dir=/Volumes/Data HD/roman/Projects/Java/jse-cyan
 os.name=Mac OS X
 os.arch=x86_64
 os.version=11.5

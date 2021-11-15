@@ -2,6 +2,9 @@ package fr.ulille.phlam;
 
 import fr.ulille.phlam.entities.Datatable;
 import fr.ulille.phlam.entities.Format;
+import fr.ulille.phlam.entities.PredictedTransition;
+import javafx.concurrent.Service;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
@@ -11,9 +14,11 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
+import org.controlsfx.control.StatusBar;
 
 import javax.persistence.*;
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.sql.Timestamp;
 import java.util.List;
@@ -32,6 +37,8 @@ public class TableInfoController implements Initializable {
     Button openFileButton;
     @FXML
     Button compileButton;
+    @FXML
+    StatusBar statusBar;
 
     FileChooser fileChooser;
 
@@ -79,11 +86,13 @@ public class TableInfoController implements Initializable {
                 return;
             }
 
+            EntityManager em1 = MainApp.getEntityManagerFactory().createEntityManager();
+
             Datatable datatable = new Datatable();
             datatable.setName(nameField.getText());
             datatable.setPath(pathField.getText());
             datatable.setDate(new Timestamp(System.currentTimeMillis()));
-            EntityManager em1 = MainApp.getEntityManagerFactory().createEntityManager();
+
             TypedQuery<Format> query1 = em1.createQuery("select f from Format f where f.id = :id",Format.class);
             query1.setParameter("id",(long) formatCombo.getSelectionModel().getSelectedIndex()+1);
             Format f = query1.getSingleResult();
@@ -91,6 +100,45 @@ public class TableInfoController implements Initializable {
             em1.getTransaction().begin();
             em1.persist(datatable);
             em1.getTransaction().commit();
+
+            TableParser tableParser = new TableParser(datatable,pathField.getText());
+            try {
+                tableParser.parseTable();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+            List<PredictedTransition> transitions = tableParser.getTransitions();
+
+            Task<Void> persistTask = new Task<Void>() {
+                @Override
+                protected Void call() throws Exception {
+                    int size = transitions.size();
+                    updateMessage("Persisting data...");
+                    EntityManager em2 = MainApp.getEntityManagerFactory().createEntityManager();
+                    em2.getTransaction().begin();
+                    int i = 0;
+                    for (PredictedTransition p : transitions){
+                        em2.persist(p);
+                        i++;
+                        updateProgress(i,size);
+                    }
+                    em2.getTransaction().commit();
+                    updateMessage(String.format("Done. %d entries persisted",size));
+                    em2.close();
+                    return null;
+                }
+            };
+
+            statusBar.textProperty().bind(persistTask.messageProperty());
+            statusBar.progressProperty().bind(persistTask.progressProperty());
+            Service<Void> persistService = new Service<Void>() {
+                @Override
+                protected Task<Void> createTask() {
+                    return persistTask;
+                }
+            };
+
+            persistService.start();
             em1.close();
         });
     }
